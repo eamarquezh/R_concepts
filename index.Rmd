@@ -1,9 +1,9 @@
 ---
-title: "R Notebook"
+title: "Notes in R by Eric"
 output: html_notebook
 ---
 
-# Notes in R by Eric
+# Basic concepts
 
 ## Declare variables
 
@@ -41,6 +41,15 @@ Let's display the measures of central tendency
 ```{r}
 summary(mtcars$wt)#just display data a column
 summary(mtcars)#to display all columns
+```
+
+and
+
+```{r}
+mean(mtcars$wt)
+median(mtcars$wt)
+max(mtcars$wt)
+min(mtcars$wt)
 ```
 
 ## Calculate a column
@@ -201,4 +210,20 @@ ggplot(mtcars, aes(x = hp)) +
   ggtitle("Histogram") +
   theme(legend.position = "none") +
   theme(panel.background = element_blank(),panel.grid.major = element_blank())
+```
+
+BoxPlot
+
+```{r}
+mx <- max(mtcars$hp)
+q3 <- quantile(datos, probs = c(0.75), names=FALSE)
+md <- median(mtcars$hp)
+q1 <- quantile(datos, probs = c(0.25), names=FALSE)
+mi <- min(mtcars$hp)
+ds <- data.frame('maximo'=mx,'cuartil 3'=q3,'mediana'=md,'cuartil 1'=q1,'minimo'=mi)
+ds
+boxplot(mtcars$hp,
+        ylab='caballos de fuerza',
+        main='Caballos de fuerza en carros')
+
 ```
