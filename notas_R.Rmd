@@ -1,0 +1,204 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Notes in R by Eric
+
+## Declare variables
+
+Let's declare variables 'a' and 'b' and calculate their sum. We will obtain the result in the variable 'suma'.
+
+```{r}
+a<-5
+b<-10
+suma<-a+b
+suma
+```
+
+## Type of data
+
+Let's display the type of data from our columns
+
+```{r}
+str(mtcars)
+```
+
+Let's display the data type of a column and convert it from integer to boolean.
+
+```{r}
+class(mtcars$vs)
+class(mtcars$am)
+mtcars$vs = as.logical(mtcars$vs)
+mtcars$am = as.logical(mtcars$am)
+str(mtcars)
+```
+
+## Measures of central tendency
+
+Let's display the measures of central tendency
+
+```{r}
+summary(mtcars$wt)#just display data a column
+summary(mtcars)#to display all columns
+```
+
+## Calculate a column
+
+Let's convert from pounds to kilograms in column wt in new datasest
+
+```{r}
+mtcars.ds1 = transform(mtcars,wt=(wt*1000)/2)
+mtcars.ds1
+```
+
+## The vectors
+
+this declare with c()
+
+```{r}
+horas_de_suenio <- c(8,7,7,7,7)
+adicionales_suenio <- c(1,2,2,2,2)
+ficcion_de_suenio<- horas_de_suenio + adicionales_suenio
+ficcion_de_suenio
+```
+
+## Matrix
+
+let's will construct the matrix from the vectors how example. just sum our. and Now let´s add a row to our matrix.
+
+```{r}
+nombre_titulos<-c("Lunes","Martes","Miercoles","Jueves","Viernes")
+nombre_filas<-c("horas de sueño","adicionales de sueño")
+horas_de_suenio <- c(8,7,7,7,7)
+adicionales_suenio <- c(1,2,2,2,2)
+horas_totales<-matrix(c(horas_de_suenio,adicionales_suenio),nrow = 2,byrow = TRUE)
+colnames(horas_totales)<-nombre_titulos
+rownames(horas_totales)<-nombre_filas
+
+horas_totales
+colSums(horas_totales)
+
+final_matriz<-rbind(horas_totales,c(1,1,1,1,2))
+final_matriz
+
+colSums(horas_totales)
+```
+
+## Comparison operator
+
+Which are
+
+```{r}
+1==1#equial to
+1!=1#not equal to
+1<1 #less than 
+1<=1#less than or equal to 
+1>1 #greater than
+1>=1#greater than or equal to
+1|1 # or
+1&1 #and
+valor <- !1 #No
+valor
+1%in%1 #in dataset
+```
+
+Example of how to use in dataset if you want to filter a columns
+
+```{r}
+mtcars[mtcars$cyl>=6 & mtcars$vs==FALSE,]
+```
+
+we create a new subset.
+
+syntax: subset(dataset, condition, columns)
+
+```{r}
+mtcars_ss<-subset(mtcars,mtcars$cyl>=6 & mtcars$vs==FALSE,select = c(model,cyl))
+mtcars_ss
+```
+
+rename column
+
+```{r}
+colnames(mtcars_ss)[colnames(mtcars_ss) == "model"] <- "modelo"
+mtcars_ss
+```
+
+## Factor
+
+```{r}
+Nivel <- c("basico","intermedio","avanzado")
+Nivel
+```
+
+```{r}
+
+datos <- c("manzana", "naranja", "manzana", "plátano", "naranja")
+factor_datos <- factor(datos)
+levels(factor_datos)
+```
+
+## List
+
+```{r}
+el_vector<- 1:8
+la_matiz<-matrix(1:9, ncol=3)
+el_df<- mtcars[1:3]
+la_lista<-list(el_vector,la_matiz,el_df)
+la_lista
+```
+
+## How to see dataset another way
+
+just title and rows number
+
+```{r}
+head(mtcars, n=2)
+```
+
+rows end
+
+```{r}
+tail(mtcars,n=2)
+```
+
+also to see the dataset
+
+```{r}
+str(mtcars)
+```
+
+# EDA
+
+Exploratory Data Analysis
+
+## Scatter plox
+
+```{r}
+plot(mtcars$mpg,mtcars$hp,
+      xlab="cilindros",ylab = "caballos de fuerza",
+     main = "Relacion cilindros y milla por galon")
+```
+
+## Histogram
+
+```{r}
+hist(mtcars$hp, breaks="Sturges", main= "Histogram sturges", xlab="valores", ylab="frecuencia")
+hist(mtcars$hp, breaks="Scott", main= "Histogram scott", xlab="valores", ylab="frecuencia")
+```
+
+with ggplot2
+
+```{r}
+library(ggplot2)
+# histograsma mtcars qplot
+library(ggplot2)
+
+ggplot(mtcars, aes(x = hp)) + 
+  geom_histogram(binwidth = 10) + xlab("caballos de fuerza") + 
+  ylab("carros") + 
+  ggtitle("Histogram") +
+  theme(legend.position = "none") +
+  theme(panel.background = element_blank(),panel.grid.major = element_blank())
+```
